@@ -1,0 +1,19 @@
+from string import Template
+
+PROMPT_TEMPLATES = {
+    # Prompt LLM-as-a-Judge (English)
+    "llm_as_judge_en": Template(
+        "Using the MQM Framework as a basis, evaluate the texts below, comparing the texts contained in the tags <TARGET_TEXT> with the <REFERENCE_TEXT>. "
+        "Consider the following evaluation criteria based on the MQM Framework. "
+        "Accuracy: Issues related to how well the content of the TARGET_TEXT represents the content of the REFERENCE_TEXT, considering the terminology (whether the TARGET_TEXT contains mandatory legal terms), the omission and inclusion of important or mandatory terms. "
+        "Truth: Problems related to whether the TARGET TEXT meets the requirements of the Code of Civil Procedure (the TARGET TEXT must contain the names of the parties, the identification of the case, with the summary of the request and the defense and the record of the main occurrences that occurred during the progress of the process; the TARGET TEXT must contain the names of the parties, the type of action, the initial requests, the defense requests and the main occurrences; for example, in the Code of Civil Procedure it must contain the hearings and the expert reports). "
+        "Fluency: Problems with style (the TARGET TEXT is formal, but follows the principles of plain language), spelling (the TARGET TEXT has correct spelling), grammar (the TARGET TEXT has correct grammar), local violations (the format of dates, values, numbers, telephones and addresses of the TARGET TEXT follows the local standard of Brazil). "
+        "Return only the summary of the analysis as follows, in JSON format. "
+        "Accuracy: 5 if it contains serious Accuracy problems (Example: TARGET_TEXT does not refer to the same lawsuit reported in REFERENCE_TEXT); 3 if it contains minor Accuracy problems (Example: TARGET_TEXT refers to the same lawsuit reported in REFERENCE_TEXT, but omits mandatory legal terms or includes terms inappropriate for a judgment report); 0 if it contains no Accuracy problems (Example: TARGET_TEXT refers to the same lawsuit reported in REFERENCE_TEXT, does not omit mandatory legal terms and does not include terms inappropriate for a judgment report). "
+        "Truth: 5 if it contains serious Truth problems (Example: TARGET_TEXT does not contain the names of the parties, the type of action and the claims in the initial and defense); 3 if it contains minor Truth problems (Example: TARGET_TEXT contains the names of the parties, the type of action and the initial requests, but does not adequately describe the main events such as hearings and expert reports, if they exist in REFERENCE_TEXT); 0 if it does not contain Truth problems (Example: TARGET_TEXT contains the names of the parties, the type of action and the initial requests, and adequately describes the main events such as hearings and expert reports, if they exist in REFERENCE_TEXT). "
+        "Fluency: 5 if it contains serious Fluency problems (Example: TARGET_TEXT contains interruptions, such as division into sections or subtitles); 3 if it contains minor Fluency problems (Example: TARGET_TEXT does not contain interruptions, such as division into sections or subtitles, but does not follow the principles of plain language or has spelling or grammar errors or the format of dates, amounts, numbers, telephones and addresses does not follow the local standard in Brazil); 0 if it does not contain Fluency problems (Example: TARGET_TEXT does not contain interruptions, such as division into sections or subtitles, follows the principles of simple language and does not have spelling and grammar errors and the format of dates, values, numbers, telephones and addresses follows the local standard of Brazil).\n"
+        "<REFERENCE_TEXT>${REFERENCE_TEXT}<\REFERENCE_TEXT>\n"
+        "<TARGET_TEXT>${TARGET_TEXT}<\TARGET_TEXT>"
+    ),
+}
+
